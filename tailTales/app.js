@@ -1,51 +1,52 @@
 const express = require('express');
-var app = express();
-const path = require('path');
+const app = express(); 
+const sharedsession = require('express-socket.io-session');
+const routes = require('./modules/routes.js');
+const socket = require('./modules/socket.js');
 const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
-const route = require('./modules/routes.js');
-const socketHandle = require('./modules/socket.js');
+const socketIo = require('socket.io');
+PORT = 3000;
+const sqlite3 = require('sqlite3');
+path = require('path');
 
 const sessionMiddleware = session({
     store: new SQLiteStore,
-    secret: 'games are funzy',
+    secret: 'skibidiragatheoppstoppa',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
-})
+});
 
-const port = 3000;
+app.use(sessionMiddleware);
+const server = app.listen(PORT, () => {console.log(`Server running on port ${PORT}`);});
+const io = socketIo(server);
 
-app.set('view engine', 'ejs');
+io.use(sharedsession(sessionMiddleware, {
+    autoSave: true
+}));
 
-// Middleware
-app.use(sessionMiddleware)
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-io.use((socket, next) => { sessionMiddleware(socket.request, {}, next); });
-
-// Routes
-app.get('/', route.getRoot);
-
-app.get('/login', route.getLogin);
-
-app.post('/login', route.postLogin);
-
-app.get('/logout', route.logout);
-
-app.get('/chat', route.isAuthenticated, route.chat);
-
-io.on('connection', socketHandle.connection);
-
-// Start server
-http.listen(port, (err) => {
-    if (err) {
-        console.log(err);
+function isAuthenticated(req, res, next) {
+    if (req.session.user) {
+        next();
     } else {
-        console.log(`Server is running on http://localhost:${port}`);
+        res.redirect('/login');
     }
-});
+}
+
+app.set('view engine', 'ejs');
+
+app.get('/', routes.index);
+
+app.get('/login', routes.login);
+
+app.post('/login', routes.loginPost);
+
+app.get('/logout', isAuthenticated, routes.logout);
+
+app.get('/chat', isAuthenticated, routes.chat);
+
+io.on('connection', socket.socketH);

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <div>
+        <h1>Home Page</h1>
+    </div>
+    <script>
+        <% if (user) { %>
+            document.write('<h2>Welcome, <%= user %><h2>');
+            document.write ('<br>');
+            console.log('User is logged in');
+            document.write('<a href="/chat">chat</a>');
+            document.write ('<br>');
+            document.write('<a href="/logout">logout</a>');
+        <% } else { %>
+            document.write('<a href="/login">login</a>');
+            console.log('User is not logged in');
+        <% } %>  
+    </script>
+</body>
+</html>
