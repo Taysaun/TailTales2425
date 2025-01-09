@@ -1,3 +1,3 @@
 # TailTales2425
 Project for programming
-Gabe, Miranda, Taysaun
+Made by : Gabe, Miranda, and Taysaun
