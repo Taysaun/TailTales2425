@@ -64,7 +64,19 @@ function loginPost(req, res) {
                             if (err) {
                                 res.send('Database error: \n' + err)
                             } else {
-                                res.send('created new user')
+
+
+
+
+
+
+// this needs to be done when I get home
+
+
+
+
+
+                                res.redirect('')
                             }
                         })
                     }
@@ -100,7 +112,8 @@ function loginPost(req, res) {
 
 function logout(req, res) {
     res.send('You have been logged out click <a href="/">here</a> to go to the home page');
-    req.session.destroy
+    req.session.destroy()
+    console.log('logged out');
         
 }
 

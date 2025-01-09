@@ -14,11 +14,11 @@
             document.write('<h2>Welcome, <%= user %><h2>');
             document.write ('<br>');
             console.log('User is logged in');
-            document.write('<a href="/chat">chat</a>');
+            document.write('<a href="/chat">Plaza</a>');
             document.write ('<br>');
-            document.write('<a href="/logout">logout</a>');
+            document.write('<a href="/logout">Leave City</a>');
         <% } else { %>
-            document.write('<a href="/login">login</a>');
+            document.write('<a href="/login">Enter City</a>');
             console.log('User is not logged in');
         <% } %>  
     </script>
