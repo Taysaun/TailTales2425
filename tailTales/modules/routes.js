@@ -76,7 +76,7 @@ function loginPost(req, res) {
 
 
 
-                                res.redirect('')
+                                res.redirect('http://localhost:3000/')
                             }
                         })
                     }
