@@ -93,7 +93,7 @@ function loginPost(req, res) {
 
                         if (row.password === hashedPassword) {
                             req.session.user = req.body.user
-                            res.redirect('/chat')
+                            res.redirect('/')
                         } else {
                             res.send('incorrect password')
                         }
@@ -120,8 +120,6 @@ function logout(req, res) {
 function chat(req, res) {
     res.render('chat', {user: req.session.user});
 }
-
-
 
 module.exports = {
     index,
