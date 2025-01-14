@@ -121,7 +121,22 @@ function chat(req, res) {
     res.render('chat', {user: req.session.user});
 }
 
+function home(req, res) {
+    res.render('home', {user: req.session.user});
+}
+
+function mall(req, res) {
+    res.render('mall', {user: req.session.user});
+}
+
+function hospital(req, res) {
+    res.render('hospital', {user: req.session.user});
+}
+
 module.exports = {
+    mall,
+    hospital,
+    home,
     index,
     login,
     loginPost,

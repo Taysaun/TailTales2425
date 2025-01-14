@@ -9,18 +9,20 @@
     <div>
         <h1>Home Page</h1>
     </div>
-    <script>
-        <% if (user) { %>
-            document.write('<h2>Welcome, <%= user %><h2>');
-            document.write ('<br>');
-            console.log('User is logged in');
-            document.write('<a href="/chat">Plaza</a>');
-            document.write ('<br>');
-            document.write('<a href="/logout">Leave City</a>');
-        <% } else { %>
-            document.write('<a href="/login">Enter City</a>');
-            console.log('User is not logged in');
-        <% } %>  
-    </script>
+    <% if (user) { %>
+        <h2>Welcome, <%= user %><h2>
+         <br>
+        <a href="/chat">Plaza</a>
+         <br>
+         <a href="/home">Pets</a>
+         <br>
+         <a href="/hospital">Hospital</a>
+        <br>
+        <a href="/mall">Mall</a>
+        <br>
+         <a href="/logout">Leave City</a>
+    <% } else { %>
+        <a href="/login">Enter City</a>
+    <% } %>  
 </body>
 </html>
