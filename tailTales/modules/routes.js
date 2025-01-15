@@ -141,5 +141,6 @@ module.exports = {
     login,
     loginPost,
     logout,
-    chat
+    chat,
+    db
 }

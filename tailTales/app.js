@@ -54,4 +54,5 @@ app.get('/home', isAuthenticated, routes.home);
 app.get('/mall', isAuthenticated, routes.mall);
 
 app.get('/hospital', isAuthenticated, routes.hospital);
+
 io.on('connection', socket.socketH);
