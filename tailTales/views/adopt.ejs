@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+<style>
+     #notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #notification.show {
+            display: block;
+            opacity: 1;
+        }
+</style>
+
+</head>
+
+<body>
+    <h1>Adopt a Pet!</h1>
+
+    <div id="notification"></div>
+
+    <div id="petAdoptButton">
+        <button onclick="adoptPet(1)">Adopt a Pet Dog</button>
+        <button onclick="adoptPet(2)">Adopt a Pet Cat</button>
+        <button onclick="adoptPet(3)">Adopt a Pet Snake</button>
+        <button onclick="adoptPet(4)">Adopt a Pet Rabbit</button>
+        <button onclick="adoptPet(5)">Adopt a Pet Fish</button>
+    </div>
+
+
+
+
+</body>
+    <script src="socket.io/socket.io.js"></script>
+    <script>
+        var localName = "<%= user %>";
+        const socket = io();
+        console.log(localName);
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+
+            notification.textContent = message;
+
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function adoptPet(type) {
+
+            switch (type) {
+                case 1:
+                    console.log("Adopting a Dog");
+                    socket.emit("adopt", {
+                        user: localName,
+                        type: "dog",
+                        name: prompt("What would you like to name your dog?")
+                    });
+                    break;
+                case 2:
+                    console.log("Adopting a Cat");
+                    socket.emit("adopt", {
+                        user: localName,
+                        type: "cat",
+                        name: prompt("What would you like to name your cat?")
+                    });
+                    break;
+                case 3:
+                    console.log("Adopting a Snake");
+                    socket.emit("adopt", {
+                        user: localName,
+                        type: "snake",
+                        name: prompt("What would you like to name your snake?")
+                    });
+                    break;
+                case 4:
+                    console.log("Adopting a Rabbit");
+                    socket.emit("adopt", {
+                        user: localName,
+                        type: "rabbit",
+                        name: prompt("What would you like to name your rabbit?")
+                    });
+                    break;
+                case 5:
+                    console.log("Adopting a Fish");
+                    socket.emit("adopt", {
+                        user: localName,
+                        type: "fish",
+                        name: prompt("What would you like to name your fish?")
+                    });
+                    break;
+            }
+        }
+
+        socket.on('pethealthUpdated', (data) => {
+            console.log(`Pet healed for ${data.user}. New health: ${data.newHealth}`);
+            showNotification(`Pet healed. New health: ${data.newHealth}`);
+        });
+        
+    </script>
+
+</html>

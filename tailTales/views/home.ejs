@@ -6,6 +6,62 @@
     <title>Home</title>
 </head>
 <body>
-    <h1>This is the page for your pet.</h1>
+    <h1>Pets</h1>
+    <% if (pets.length > 0) { %>
+        <ul>
+            <% pets.forEach(pet => { %>
+                <li id="<%= pet.id %>">
+                    <%= pet.name %>
+                    <ul>
+                        <li>health: <%= pet.health %></li>
+                        <li>boredom: <%= pet.boredom %></li>
+                        <li>hunger: <%= pet.hunger %></li>
+                    </ul>
+                </li>
+
+            <% }) %>
+        </ul>
+
+        <select name="pets" id="pets">
+            <% pets.forEach(pet => { %>
+                <option value="<%= pet.id %>"><%= pet.name %></option>
+            <% }) %>
+        </select>
+
+        <button onclick="play()">PLAY</button>
+    <% } %>
 </body>
+<script src="socket.io/socket.io.js"></script>
+<script>
+
+    const socket = io();
+    
+    let currentPet = document.getElementById('pets').value;
+
+    document.getElementById('pets').addEventListener('change', (e) => {
+        currentPet = e.target.value;
+    });
+
+    // socket.on('petUpdated', (pet) => {
+    //     const pets = document.querySelectorAll('li');
+    //     pets.forEach(petElement => {
+    //         if (petElement.id === pet.petId) {
+    //             petElement.innerHTML = `
+    //                 ${pet.name}
+    //                 <ul>
+    //                     <li>health: ${pet.health}</li>
+    //                     <li>boredom: ${pet.boredom}</li>
+    //                     <li>hunger: ${pet.hunger}</li>
+    //                 </ul>
+    //             `;
+    //         }
+    //     });
+    // });
+
+    // function play() {
+    //     //Decrease boredom by 10
+    //     socket.emit('play', currentPet);
+    // }
+
+</script>
 </html>

@@ -76,7 +76,7 @@ function loginPost(req, res) {
 
 
 
-                                res.redirect('http://localhost:3000/')
+                                res.redirect('/')
                             }
                         })
                     }
@@ -121,12 +121,24 @@ function chat(req, res) {
     res.render('chat', {user: req.session.user});
 }
 
-function home(req, res) {
-    res.render('home', {user: req.session.user});
+function adopt(req, res) {
+    res.render('adopt', {user: req.session.user});
 }
 
 function mall(req, res) {
     res.render('mall', {user: req.session.user});
+}
+
+function home(req, res) {
+    db.all('SELECT * FROM pets WHERE owner=?;', req.session.user, (err, rows) => {
+        if (err) {
+            console.error(err);
+            res.send('An error occurred while fetching pets');
+            return;
+        }
+        res.render('home', {user: req.session.user, pets: rows});
+    });
+
 }
 
 function hospital(req, res) {
@@ -134,9 +146,10 @@ function hospital(req, res) {
 }
 
 module.exports = {
+    home,
     mall,
     hospital,
-    home,
+    adopt,
     index,
     login,
     loginPost,
