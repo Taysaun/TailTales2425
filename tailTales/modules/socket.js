@@ -83,18 +83,38 @@ function socketH(socket) {
     });
   });
 
-  // socket.on('play', function (data) {
-  //     let petId = data
-  //     db.run("UPDATE pets SET boredom = boredom - 10 WHERE id = ?", petId, (err) => {
-  //         if (err) {
-  //             console.error('Error updating boredom:', err);
-  //             socket.emit('error', { message: 'An error occurred while updating boredom.' });
-  //             return;
-  //         }
-  //         console.log('Pet boredom updated');
-  //         io.to(socket.id).emit('petUpdated', { petId: petId });
-  //     });
-  // })
+  socket.on('play', function (pet) {
+      db.run("UPDATE pets SET boredom = boredom - 10 WHERE id = ?", pet, (err) => {
+          if (err) {
+              console.error('Error updating boredom:', err);
+              socket.emit('boredomUpdateError', { message: 'An error occurred while updating boredom.' });
+              return;
+          }
+
+          db.get("SELECT * FROM pets WHERE id = ?", pet, (err, row) => {
+            if (err) {
+                console.error('Error retrieving updated pet:', err);
+                socket.emit('dataRetreiveError', { message: 'An error occurred while retrieving updated pet data.' });
+                return;
+            }
+
+            if(!row) {
+                console.error('No pet found with id: undefined');
+                socket.emit('noPetFound', { pet: pet });
+                return;
+            }
+
+          console.log('Pet boredom updated');
+          socket.emit('petUpdated', { 
+            id: row.id,
+            name: row.name,
+            health: row.health,
+            boredom: row.boredom,
+            hunger: row.hunger,
+           });
+      });
+  });
+});
 }
 
 
