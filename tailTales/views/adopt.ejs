@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
 
+    
+
 <style>
      #notification {
             position: fixed;
@@ -38,10 +40,15 @@
 
     <div id="petAdoptButton">
         <button onclick="adoptPet(1)">Adopt a Pet Dog</button>
+        <img src="../img/animal/dog.gif" alt="Dog">
         <button onclick="adoptPet(2)">Adopt a Pet Cat</button>
+        <img src="../img/animal/cat.gif" alt="cat">
         <button onclick="adoptPet(3)">Adopt a Pet Snake</button>
+        <img src="../img/animal/snake.gif" alt="snake">
         <button onclick="adoptPet(4)">Adopt a Pet Rabbit</button>
+        <img src="../img/animal/rabbit.gif" alt="rabbit">
         <button onclick="adoptPet(5)">Adopt a Pet Fish</button>
+        <img src="../img/animal/fish.gif" alt="fish">
     </div>
 
     <a href="/">Back to City</a>
@@ -120,6 +127,10 @@
             showNotification(`Pet healed. New health: ${data.newHealth}`);
         });
         
+        socket.on('petAdopted', (data) => {
+            console.log(`Pet adopted for ${data.user}. Type: ${data.type}, Name: ${data.name}`);
+            showNotification(`Pet adopted. Type: ${data.type}, Name: ${data.name}`);
+        });
     </script>
 
 </html>

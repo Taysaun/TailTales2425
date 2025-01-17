@@ -19,6 +19,7 @@ const sessionMiddleware = session({
 });
 
 app.use(sessionMiddleware);
+app.use(express.static('public'));
 const server = app.listen(PORT, () => {console.log(`Server running on port ${PORT}`);});
 const io = socketIo(server);
 
