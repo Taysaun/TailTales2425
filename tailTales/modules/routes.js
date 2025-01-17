@@ -64,18 +64,6 @@ function loginPost(req, res) {
                             if (err) {
                                 res.send('Database error: \n' + err)
                             } else {
-
-
-
-
-
-
-// this needs to be done when I get home
-
-
-
-
-
                                 res.redirect('/')
                             }
                         })
