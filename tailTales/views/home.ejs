@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,15 +9,6 @@
     <style>
         h1 {
             margin-top: 50px;
-        }
-
-        #petList {
-            display: block;
-            justify-content: center;
-            margin-top: 50px;
-            border-style: solid;
-            border-width: 1px;
-            padding: 20px;
         }
 
         button {
@@ -55,56 +47,68 @@
     </style>
 
 </head>
+
 <body>
 
     <div id="notification"></div>
 
     <h1>Pets</h1>
     <div>
-        <% if (pets.length > 0) { %>
-            <ul">
-                <% pets.forEach(pet => { %>
-                    <li id="<%= pet.id %>">
+        <% if (pets.length> 0) { %>
+            <ul>
+                <% pets.forEach(pet=> { %>
+                    <li id="<%= pet.id %>" class="pets">
                         <%= pet.name %>
-                        <ul>
-                            <li>health: <%= pet.health %></li>
-                            <li>boredom: <%= pet.boredom %></li>
-                            <li>hunger: <%= pet.hunger %></li>
-                        </ul>
+                            <ul>
+                                <li>health: <%= pet.health %>
+                                </li>
+                                <li>boredom: <%= pet.boredom %>
+                                </li>
+                                <li>hunger: <%= pet.hunger %>
+                                </li>
+                            </ul>
                     </li>
-    
-                <% }) %>
-            </ul>
-    
-            <select name="pets" id="pets">
-                <% pets.forEach(pet => { %>
-                    <option value="<%= pet.id %>"><%= pet.name %></option>
-                <% }) %>
-            </select>
-    
-            <button onclick="play()">Play with pet</button>
-        <% } %>
+
+                    <% }) %>
+                        </ul>
+
+                        <select name="pets" id="pets">
+                            <% pets.forEach(pet=> { %>
+                                <option value="<%= pet.id %>">
+                                    <%= pet.name %>
+                                </option>
+                                <% }) %>
+                        </select>
+
+                        <button onclick="play()">Play with pet</button>
+                        <% } %>
+
+                        <button onclick="feed()">Feed pet</button>
     </div>
+
+    <a href="/">Back to City</a>
 </body>
 <script src="socket.io/socket.io.js"></script>
 <script>
 
-function showNotification(message) {
-            const notification = document.getElementById('notification');
+    var localName = "<%= user %>";
 
-            notification.textContent = message;
+    function showNotification(message) {
+        const notification = document.getElementById('notification');
 
-            notification.classList.add('show');
+        notification.textContent = message;
 
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
+        notification.classList.add('show');
+
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
+    }
 
     document.getElementById("pets").selectedIndex = -1;
 
     const socket = io();
-    
+
     let currentPet = document.getElementById('pets').value;
 
     document.getElementById('pets').addEventListener('change', (e) => {
@@ -116,7 +120,7 @@ function showNotification(message) {
         console.log(pet);
         const pets = document.querySelectorAll('li');
         pets.forEach(petElement => {
-            if (pet.id ==  petElement.id) {
+            if (pet.id == petElement.id) {
                 petElement.innerHTML = `
                     ${pet.name}
                     <ul>
@@ -127,23 +131,53 @@ function showNotification(message) {
                 `;
             }
         });
-        console.log(`Pet health is updated.`);
-        showNotification('Pet health updated.');
+        console.log(`Pet stats is updated.`);
+        showNotification('Pet stats updated.');
+    });
+
+    socket.on('petsUpdated', (pets) => {
+        var userPets = []
+        pets.forEach(pet => {
+            if (pet.owner == localName) {
+                userPets.push(pet);
+            }
+        });
+        
+        var petsElements = document.querySelectorAll('.pets');
+        petsElements.forEach(petElement => {
+            userPets.forEach(pet => {
+                if (pet.id == petElement.getAttribute('id')) {
+                    petElement.innerHTML = `
+                        ${pet.name}
+                        <ul>
+                            <li>health: ${pet.health}</li>
+                            <li>boredom: ${pet.boredom}</li>
+                            <li>hunger: ${pet.hunger}</li>
+                        </ul>
+                    `;
+                }
+            });
+        });
     });
 
     function play() {
         socket.emit('play', currentPet);
     }
 
-        socket.on('noPetFound', (data) => {
-            console.log(`Pet not found.`);
-            showNotification(data.message);
-        });
+    function feed() {
+        socket.emit('feed', currentPet);
+    }
 
-        socket.on('dataRetreiveError', (data) => {
-            console.log(`Error retreiving data from database.`);
-            showNotification(data.message);
-        });
+    socket.on('noPetFound', (data) => {
+        console.log(`Pet not found.`);
+        showNotification(data.message);
+    });
+
+    socket.on('dataRetreiveError', (data) => {
+        console.log(`Error retreiving data from database.`);
+        showNotification(data.message);
+    });
 
 </script>
+
 </html>

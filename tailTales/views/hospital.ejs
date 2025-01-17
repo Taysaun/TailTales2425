@@ -89,11 +89,30 @@
         </div>
     </div>
 
+    <select name="pets" id="pets">
+        <% pets.forEach(pet=> { %>
+            <option value="<%= pet.id %>">
+                <%= pet.name %>
+            </option>
+            <% }) %>
+    </select>
+
+    <a href="/">Back to City</a>
+    <a href="/home">Your Pets</a>
+
     <script src="/socket.io/socket.io.js"> </script>
     <script>
         var localName = "<%= user %>";
         const socket = io();
-        console.log(localName);
+        // console.log(localName);
+        currentPet = document.getElementById("pets").value;
+
+        document.getElementById('pets').addEventListener('change', (e) => {
+            currentPet = e.target.value;
+            console.log(currentPet);
+        });
+
+        document.getElementById("pets").selectedIndex = -1;
 
         function showNotification(message) {
             const notification = document.getElementById('notification');
@@ -115,7 +134,8 @@
                     socket.emit("hospitalHeal", {
                         user: localName,
                         level: "1",
-                        healAmount: 10
+                        healAmount: 10,
+                        pet: currentPet
                     });
                     break;
                 case 2:
@@ -123,7 +143,8 @@
                     socket.emit("hospitalHeal", {
                         user: localName,
                         level: "2",
-                        healAmount: 20
+                        healAmount: 20,
+                        pet: currentPet
                     });
                     break;
                 case 3:
@@ -131,7 +152,8 @@
                     socket.emit("hospitalHeal", {
                         user: localName,
                         level: "3",
-                        healAmount: 30
+                        healAmount: 30,
+                        pet: currentPet
                     });
                     break;
                 case 4:
@@ -139,7 +161,8 @@
                     socket.emit("hospitalHeal", {
                         user: localName,
                         level: "4",
-                        healAmount: 40
+                        healAmount: 40,
+                        pet: currentPet
                     });
                     break;
                 case 5:
@@ -147,7 +170,8 @@
                     socket.emit("hospitalHeal", {
                         user: localName,
                         level: "5",
-                        healAmount: 50
+                        healAmount: 50,
+                        pet: currentPet
                     });
                     break;
             }

@@ -59,4 +59,3 @@ app.get('/hospital', isAuthenticated, routes.hospital);
 
 io.on('connection', socket.socketH);
 
-module.exports = { app, io };

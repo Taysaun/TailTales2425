@@ -142,7 +142,14 @@ function home(req, res) {
 }
 
 function hospital(req, res) {
-    res.render('hospital', {user: req.session.user});
+    db.all('SELECT * FROM pets WHERE owner=?;', req.session.user, (err, rows) => {
+        if (err) {
+            console.error(err);
+            res.send('An error occurred while fetching pets');
+            return;
+        }
+        res.render('hospital', {user: req.session.user, pets: rows});
+    });
 }
 
 module.exports = {
