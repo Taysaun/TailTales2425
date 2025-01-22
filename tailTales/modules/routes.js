@@ -126,7 +126,6 @@ function home(req, res) {
         }
         res.render('home', {user: req.session.user, pets: rows});
     });
-
 }
 
 function hospital(req, res) {
@@ -150,5 +149,5 @@ module.exports = {
     loginPost,
     logout,
     chat,
-    db
+    db,
 }
