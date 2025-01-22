@@ -117,6 +117,17 @@ function mall(req, res) {
     res.render('mall', {user: req.session.user});
 }
 
+function itemStore(req, res) {
+    db.get('SELECT * FROM users WHERE username=?;', req.session.user, (err, row) => {
+        if (err) {
+            console.error(err);
+            res.send('An error occurred while fetching username');
+            return;
+        }
+        res.render('itemStore', {user: req.session.user, moneyOwned: row.money});
+    });
+}
+
 function home(req, res) {
     db.all('SELECT * FROM pets WHERE owner=?;', req.session.user, (err, rows) => {
         if (err) {
@@ -150,4 +161,5 @@ module.exports = {
     logout,
     chat,
     db,
+    itemStore,
 }

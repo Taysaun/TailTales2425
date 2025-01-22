@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>itemStore</title>
+</head>
+<body>
+    <div> 
+    <div class="item"></div>
+        <h2>Rubber Ball</h2>
+        <p>A simple toy for all pets (except the fish)</p>
+        <p>Cost: 10</p>
+        <p>Entertainment: 20</p>
+        <button>Buy Now</button>
+    </div>
+    <div class="item">
+        <h2>Moai Head</h2>
+        <p>A simple toy for the fish!</p>
+        <p>Cost: 10</p>
+        <p>Entertainment: 20</p>
+        <button>Buy Now</button>
+    </div>
+    <div class="item">
+        <h2>Self-Driven Ball</h2>
+        <p>A complex toy for all pets (execept the fish)</p>
+        <p>Cost: 20</p>
+        <p>Entertainment: 50</p>
+        <button>Buy Now</button>
+    </div>
+    <div class="item"> 
+        <h2>Item 4</h2>
+        <p>A complex toy for the fish!/p>
+        <p>Cost: 20</p>
+        <p>Entertainment: 50</p>
+        <button>Buy Now</button>
+    </div>
+    <div class="item">
+        <h2>Item 5</h2>
+        <p>Description of item 5</p>
+        <p>Cost: 20</p>
+        <button>Buy Now</button>
+    </div>
+</div>
+    <a href="/mall">Back to the mall</a>
+    <br>
+    <a href="/">Exit the mall through the fire exit</a>
+</body>
+<script src="socket.io/socket.io.js"></script>
+<script>
+    var socket = io();
+    var localName = "<%= user %>";
+
+    switch(item){
+        case 1:
+            socket.emit('item1', {
+                localName,
+                cost: 10,
+                item: 'item1'
+            });
+            break;
+        case 2: 
+            socket.emit('item2', {
+                localName,
+                cost: 20,
+                item: 'item2'
+            });
+            break;
+        case 3: 
+            socket.emit('item3', {
+                localName,
+                cost: 30,
+                item: 'item3'
+            });
+            break;
+        case 4: 
+            socket.emit('item4', {
+                localName,
+                cost: 40,
+                item: 'item4'
+            });
+            break;
+        case 5: 
+            socket.emit('item5', {
+                localName,
+                cost: 50,
+                item: 'item5'
+            });
+            break;
+    }
+</script>
+</html>
