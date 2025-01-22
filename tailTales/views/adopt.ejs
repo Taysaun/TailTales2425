@@ -38,6 +38,8 @@
 
     <div id="notification"></div>
 
+    <div id="money">Money: <%= money %></div>
+
     <div id="petAdoptButton">
         <button onclick="adoptPet(1)">Adopt a Pet Dog</button>
         <img src="../img/animal/dog.gif" alt="Dog">
@@ -52,6 +54,7 @@
     </div>
 
     <a href="/">Back to City</a>
+    <br>
     <a href="/home">Your Pets</a>
 
 
@@ -86,6 +89,10 @@
                         type: "dog",
                         name: prompt("What would you like to name your dog?")
                     });
+                    socket.emit("moneyUpdate", {
+                        user: localName,
+                        cost: 20
+                    });
                     break;
                 case 2:
                     console.log("Adopting a Cat");
@@ -93,6 +100,10 @@
                         user: localName,
                         type: "cat",
                         name: prompt("What would you like to name your cat?")
+                    });
+                    socket.emit("moneyUpdate", {
+                        user: localName,
+                        cost: 20
                     });
                     break;
                 case 3:
@@ -102,6 +113,10 @@
                         type: "snake",
                         name: prompt("What would you like to name your snake?")
                     });
+                    socket.emit("moneyUpdate", {
+                        user: localName,
+                        cost: 25
+                    });
                     break;
                 case 4:
                     console.log("Adopting a Rabbit");
@@ -110,6 +125,10 @@
                         type: "rabbit",
                         name: prompt("What would you like to name your rabbit?")
                     });
+                    socket.emit("moneyUpdate", {
+                        user: localName,
+                        cost: 30
+                    });
                     break;
                 case 5:
                     console.log("Adopting a Fish");
@@ -117,6 +136,10 @@
                         user: localName,
                         type: "fish",
                         name: prompt("What would you like to name your fish?")
+                    });
+                    socket.emit("moneyUpdate", {
+                        user: localName,
+                        cost: 15
                     });
                     break;
             }

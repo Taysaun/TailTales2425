@@ -26,7 +26,7 @@ const db = new sqlite3.Database('data/database.db', (err) => {
 });
 
 function index(req, res) {
-    res.render('index', {user: req.session.user});
+    res.render('index', { user: req.session.user });
 }
 
 function login(req, res) {
@@ -36,14 +36,14 @@ function login(req, res) {
         req.session.token = tokenData;
         req.session.user = tokenData.username;
         res.redirect('/');
-   } else {
-    res.render('login', {user: req.session.user});
-    console.log('req.session.user:', req.session.user);
-   };
+    } else {
+        res.render('login', { user: req.session.user });
+        console.log('req.session.user:', req.session.user);
+    };
 }
 
 function loginPost(req, res) {
-   
+
     console.log(req.body)
     if (req.body.user && req.body.pass) {
         db.get('SELECT * FROM users WHERE username=?;', req.body.user, (err, row) => {
@@ -102,29 +102,47 @@ function logout(req, res) {
     res.send('You have been logged out click <a href="/">here</a> to go to the home page');
     req.session.destroy()
     console.log('logged out');
-        
+
 }
 
 function chat(req, res) {
-    res.render('chat', {user: req.session.user});
+    res.render('chat', { user: req.session.user });
 }
 
+
 function adopt(req, res) {
-    res.render('adopt', {user: req.session.user});
+    db.get('SELECT * FROM users WHERE username=?;', req.session.user, (err, row) => {
+        if (err) {
+            console.error(err);
+            res.send('An error occurred while fetching user data');
+            return;
+        }
+        userMoney = row.money;
+        res.render('adopt', { user: req.session.user, money: userMoney });
+    });
 }
 
 function mall(req, res) {
-    res.render('mall', {user: req.session.user});
+    res.render('mall', { user: req.session.user });
 }
 
 function home(req, res) {
-    db.all('SELECT * FROM pets WHERE owner=?;', req.session.user, (err, rows) => {
+    db.get('SELECT * FROM users WHERE username=?;', req.session.user, (err, row) => {
+        var userMoney;
         if (err) {
             console.error(err);
-            res.send('An error occurred while fetching pets');
+            res.send('An error occurred while fetching user data');
             return;
         }
-        res.render('home', {user: req.session.user, pets: rows});
+        userMoney = row.money;
+        db.all('SELECT * FROM pets WHERE owner=?;', req.session.user, (err, rows) => {
+            if (err) {
+                console.error(err);
+                res.send('An error occurred while fetching pets');
+                return;
+            }
+            res.render('home', { user: req.session.user, pets: rows, money: userMoney });
+        });
     });
 
 }
@@ -136,7 +154,7 @@ function hospital(req, res) {
             res.send('An error occurred while fetching pets');
             return;
         }
-        res.render('hospital', {user: req.session.user, pets: rows});
+        res.render('hospital', { user: req.session.user, pets: rows });
     });
 }
 

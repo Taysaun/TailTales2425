@@ -53,6 +53,7 @@
     <div id="notification"></div>
 
     <h1>Pets</h1>
+    <div id="money">Money: <%= money %></div>
     <div>
         <% if (pets.length> 0) { %>
             <ul>
@@ -86,7 +87,7 @@
                         <button onclick="feed()">Feed pet</button>
     </div>
 
-    <a href="/">Back to City</a>
+    <a href="/">Back to City</a>    
 </body>
 <script src="socket.io/socket.io.js"></script>
 <script>
