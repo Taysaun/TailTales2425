@@ -6,40 +6,43 @@
     <title>itemStore</title>
 </head>
 <body>
+
+    <div id="notification"></div>
+
     <div> 
     <div class="item"></div>
         <h2>Rubber Ball</h2>
         <p>A simple toy for all pets (except the fish)</p>
         <p>Cost: 10</p>
         <p>Entertainment: 20</p>
-        <button>Buy Now</button>
+        <button onclick="buyItem(1)">Buy Now</button>
     </div>
     <div class="item">
-        <h2>Moai Head</h2>
+        <h2>Plastic Fish</h2>
         <p>A simple toy for the fish!</p>
         <p>Cost: 10</p>
         <p>Entertainment: 20</p>
-        <button>Buy Now</button>
+        <button onclick="buyItem(2)">Buy Now</button>
     </div>
     <div class="item">
         <h2>Self-Driven Ball</h2>
         <p>A complex toy for all pets (execept the fish)</p>
         <p>Cost: 20</p>
         <p>Entertainment: 50</p>
-        <button>Buy Now</button>
+        <button onclick="buyItem(3)">Buy Now</button>
     </div>
     <div class="item"> 
-        <h2>Item 4</h2>
-        <p>A complex toy for the fish!/p>
+        <h2>Robo Fish</h2>
+        <p>A complex toy for the fish!</p>
         <p>Cost: 20</p>
         <p>Entertainment: 50</p>
-        <button>Buy Now</button>
+        <button onclick="buyItem(4)" >Buy Now</button>
     </div>
     <div class="item">
-        <h2>Item 5</h2>
+        <h2>SuperAI Ball</h2>
         <p>Description of item 5</p>
         <p>Cost: 20</p>
-        <button>Buy Now</button>
+        <button onclick="buyItem(5)">Buy Now</button>
     </div>
 </div>
     <a href="/mall">Back to the mall</a>
@@ -51,42 +54,78 @@
     var socket = io();
     var localName = "<%= user %>";
 
+    function showNotification(message) {
+            const notification = document.getElementById('notification');
+
+            notification.textContent = message;
+
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+function buyItem(item){
     switch(item){
         case 1:
-            socket.emit('item1', {
-                localName,
+            socket.emit('buyItem', {
+                user: localName,
                 cost: 10,
-                item: 'item1'
+                item: 'rubberBall',
+                description: 'A simple toy for all pets (except the fish)',
+                
+                
             });
+            console.log('item1');
             break;
         case 2: 
-            socket.emit('item2', {
+            socket.emit('buyItem', {
                 localName,
                 cost: 20,
-                item: 'item2'
+                item: 'fakeFish',
+                description: 'A simple toy for the fish!'
             });
+            console.log('item2');
             break;
         case 3: 
-            socket.emit('item3', {
+            socket.emit('buyItem', {
                 localName,
                 cost: 30,
-                item: 'item3'
+                item: 'selfDrivenBall',
+                description: 'A complex toy for all pets (execept the fish)'
             });
+            console.log('item3');
             break;
         case 4: 
-            socket.emit('item4', {
+            socket.emit('buyItem', {
                 localName,
                 cost: 40,
-                item: 'item4'
+                item: 'roboFish',
+                description: 'A complex toy for the fish!'
             });
             break;
         case 5: 
-            socket.emit('item5', {
+            socket.emit('buyItem', {
                 localName,
                 cost: 50,
-                item: 'item5'
+                item: 'advancedBall',
+                description: 'SuperAI ball for all pets'
             });
             break;
     }
+
+socket.on('itemAdded', function(data){
+    message = data.message
+    console.log(data);
+    showNotification(message);
+});
+
+socket.on('error', function(data){
+    message = data.message
+    console.log(data);
+    showNotification(message);
+});
+    };
 </script>
 </html>

@@ -104,6 +104,59 @@ function socketH(socket) {
     });
   });
 
+  socket.on('buyItem', function (data) {
+    const user = data.user;
+    const item = data.item;
+    const cost = data.cost;
+    const description = data.description;
+    console.log(`Item purchase request from, ${user}`);
+
+    db.get('SELECT * FROM users WHERE username=?;', user, (err, row) => {
+      if (err) {
+        console.error('Database error:', err);
+        socket.emit('error', { message: 'An error occurred while processing the request.' });
+        return;
+      }
+
+      if (!row) {
+        console.log('No user found:', user);
+        socket.emit('noUserFound', { user: user });
+        return;
+      }
+
+      console.log('User found, checking balance...');
+
+      if (row.money < cost) {
+        console.log('Insufficient funds');
+        socket.emit('insufficientFunds', { user: user, cost: cost });
+        return;
+      }
+
+      console.log('Sufficient funds, updating balance...');
+
+      db.run('UPDATE users SET money = money - ? WHERE username=?;', [cost, user], (err) => {
+        if (err) {
+          console.error('Error updating balance:', err);
+          socket.emit('error', { message: 'An error occurred while updating balance.' });
+          return;
+        }
+
+        console.log('Balance updated, adding item...');
+
+        db.run('INSERT INTO items (owner, name,description) VALUES (?, ?, ?);', [user, item,description], (err) => {
+          if (err) {
+            console.error('Error adding item:', err);
+            socket.emit('error', { message: 'An error occurred while adding item.' });
+            return;
+          }
+
+          console.log('Item added');
+          socket.emit('itemAdded', { user: user, item: item });
+        });
+      });
+    });
+  });
+
   socket.on('adopt', function (data) {
     console.log(data)
     const user = data.user;
