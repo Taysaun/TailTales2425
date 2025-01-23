@@ -112,13 +112,21 @@ function chat(req, res) {
 
 function adopt(req, res) {
     db.get('SELECT * FROM users WHERE username=?;', req.session.user, (err, row) => {
+        var userMoney;
         if (err) {
             console.error(err);
             res.send('An error occurred while fetching user data');
             return;
         }
         userMoney = row.money;
-        res.render('adopt', { user: req.session.user, money: userMoney });
+        db.all('SELECT * FROM pets WHERE owner=?;', req.session.user, (err, rows) => {
+            if (err) {
+                console.error(err);
+                res.send('An error occurred while fetching pets');
+                return;
+            }
+            res.render('adopt', { user: req.session.user, pets: rows, money: userMoney });
+        });
     });
 }
 
@@ -148,13 +156,22 @@ function home(req, res) {
 }
 
 function hospital(req, res) {
-    db.all('SELECT * FROM pets WHERE owner=?;', req.session.user, (err, rows) => {
+    db.get('SELECT * FROM users WHERE username=?;', req.session.user, (err, row) => {
+        var userMoney;
         if (err) {
             console.error(err);
-            res.send('An error occurred while fetching pets');
+            res.send('An error occurred while fetching user data');
             return;
         }
-        res.render('hospital', { user: req.session.user, pets: rows });
+        userMoney = row.money;
+        db.all('SELECT * FROM pets WHERE owner=?;', req.session.user, (err, rows) => {
+            if (err) {
+                console.error(err);
+                res.send('An error occurred while fetching pets');
+                return;
+            }
+            res.render('hospital', { user: req.session.user, pets: rows, money: userMoney });
+        });
     });
 }
 
