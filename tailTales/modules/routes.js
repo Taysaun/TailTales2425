@@ -152,7 +152,6 @@ function home(req, res) {
             res.render('home', { user: req.session.user, pets: rows, money: userMoney });
         });
     });
-
 }
 
 function hospital(req, res) {
