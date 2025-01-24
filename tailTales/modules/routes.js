@@ -174,6 +174,14 @@ function hospital(req, res) {
     });
 }
 
+function jobs(req, res) {
+    res.render('jobs', { user: req.session.user });
+}
+
+function janitor(req, res) {
+    res.render('janitor', { user: req.session.user });
+}
+
 module.exports = {
     home,
     mall,
@@ -184,5 +192,7 @@ module.exports = {
     loginPost,
     logout,
     chat,
+    jobs,
+    janitor,
     db
 }

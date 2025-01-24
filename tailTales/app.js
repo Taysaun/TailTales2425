@@ -58,5 +58,9 @@ app.get('/mall', isAuthenticated, routes.mall);
 
 app.get('/hospital', isAuthenticated, routes.hospital);
 
+app.get('/jobs', isAuthenticated, routes.jobs);
+
+app.get('/janitor', isAuthenticated, routes.janitor);
+
 io.on('connection', socket.socketH);
 

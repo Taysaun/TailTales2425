@@ -197,6 +197,11 @@
         socket.on('error', (data) => {
             console.error(data.message);
         });
+
+        socket.on('moneyUpdated', (data) => {
+            console.log(`Money updated for ${data.user}. New money: ${data.newMoney}`);
+            moneyBox.innerHTML = `Money: ${data.newMoney}`;
+        });
     </script>
 
 </body>

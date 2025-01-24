@@ -53,7 +53,8 @@
     <div id="notification"></div>
 
     <h1>Pets</h1>
-    <div id="money">Money: <%= money %></div>
+    <div id="money">Money: <%= money %>
+    </div>
     <div>
         <% if (pets.length> 0) { %>
             <ul>
@@ -71,23 +72,23 @@
                     </li>
 
                     <% }) %>
-                        </ul>
+            </ul>
 
-                        <select name="pets" id="pets">
-                            <% pets.forEach(pet=> { %>
-                                <option value="<%= pet.id %>">
-                                    <%= pet.name %>
-                                </option>
-                                <% }) %>
-                        </select>
+            <select name="pets" id="pets">
+                <% pets.forEach(pet=> { %>
+                    <option value="<%= pet.id %>">
+                        <%= pet.name %>
+                    </option>
+                    <% }) %>
+            </select>
 
-                        <button onclick="play()">Play with pet</button>
-                        <% } %>
+            <button onclick="play()">Play with pet</button>
+            <% } %>
 
-                        <button onclick="feed()">Feed pet</button>
+                <button onclick="feed()">Feed pet</button>
     </div>
 
-    <a href="/">Back to City</a>    
+    <a href="/">Back to City</a>
 </body>
 <script src="socket.io/socket.io.js"></script>
 <script>
@@ -143,7 +144,7 @@
                 userPets.push(pet);
             }
         });
-        
+
         var petsElements = document.querySelectorAll('.pets');
         petsElements.forEach(petElement => {
             userPets.forEach(pet => {
@@ -177,6 +178,11 @@
     socket.on('dataRetreiveError', (data) => {
         console.log(`Error retreiving data from database.`);
         showNotification(data.message);
+    });
+
+    socket.on('moneyUpdated', (data) => {
+        console.log(`Money updated for ${data.user}. New money: ${data.newMoney}`);
+        moneyBox.innerHTML = `Money: ${data.newMoney}`;
     });
 
 </script>
