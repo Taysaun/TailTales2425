@@ -252,6 +252,31 @@ function socketH(socket) {
       });
     });
   });
+
+socket.on('healthBarUpdateRequest', function (localname) {
+  db.all("SELECT * FROM pets WHERE owner = ?", localname, (err, row) => {
+    if (err) {
+      console.error('Error retrieving updated pet:', err);
+      socket.emit('dataRetreiveError', { message: 'An error occurred while retrieving updated pet data.' });
+      return;
+    }
+
+    if (!row) {
+      console.error('No pet found with owner: undefined');
+      return;
+    }
+
+    
+    socket.emit('healthUpdate', {
+      id: row.id,
+      name: row.name,
+      health: row.health,
+      boredom: row.boredom,
+      hunger: row.hunger,
+      owner: row.owner
+    });
+  });
+});
 }
 
 

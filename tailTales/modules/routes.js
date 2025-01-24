@@ -150,6 +150,17 @@ function hospital(req, res) {
     });
 }
 
+function foodStore(req, res) {
+    db.get('SELECT * FROM users WHERE username=?;', req.session.user, (err, row) => {
+        if (err) {
+            console.error(err);
+            res.send('An error occurred while fetching username');
+            return;
+        }
+        res.render('foodStore', {user: req.session.user, moneyOwned: row.money});
+    });
+}
+
 module.exports = {
     home,
     mall,
@@ -162,4 +173,5 @@ module.exports = {
     chat,
     db,
     itemStore,
+    foodStore,
 }

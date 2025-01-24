@@ -60,5 +60,7 @@ app.get('/hospital', isAuthenticated, routes.hospital);
 
 app.get('/itemStore', isAuthenticated, routes.itemStore);
 
+app.get('/foodStore', isAuthenticated, routes.foodStore);
+
 io.on('connection', socket.socketH);
 
