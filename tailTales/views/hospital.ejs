@@ -2,200 +2,194 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
-    <title>Hospital</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=, initial-scale=1.0">
+  <title>Hospital</title>
 
-    <style>
-        h1 {
-            text-align: center;
-            margin-top: 50px;
-        }
+  <style>
+    h1 {
+      text-align: center;
+      margin-top: 50px;
+    }
 
-        #healthPotionSection {
-            display: flex;
-            justify-content: center;
-            margin-top: 50px;
-            border-style: solid;
-            border-width: 1px;
-            padding: 20px;
-        }
+    #healthPotionSection {
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+      border-style: solid;
+      border-width: 1px;
+      padding: 20px;
+    }
 
-        #healthPotion1,
-        #healthPotion2,
-        #healthPotion3,
-        #healthPotion4,
-        #healthPotion5 {
-            margin: 0 20px;
-            border-style: solid;
-            border-width: 1px;
-        }
+    #healthPotion1,
+    #healthPotion2,
+    #healthPotion3,
+    #healthPotion4,
+    #healthPotion5 {
+      margin: 0 20px;
+      border-style: solid;
+      border-width: 1px;
+    }
 
-        #notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #333;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 5px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
+    #notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #333;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 5px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
 
-        #notification.show {
-            display: block;
-            opacity: 1;
-        }
-    </style>
+    #notification.show {
+      display: block;
+      opacity: 1;
+    }
+  </style>
 
 </head>
 
 <body>
-    <h1>
-        Welcome to the Hospital
-    </h1>
+  <h1>
+    Welcome to the Hospital
+  </h1>
 
-    <div id="notification"></div>
+  <div id="notification"></div>
 
-    <div id="healthPotionSection">
-        <div id="healthPotion1">
-            <h4>Buy Health Potion (level 1)</h4>
-            <button style="display: block; margin: 0 auto;" onclick="buyHealthPot(1)">Buy</button>
-        </div>
-
-        <div id="healthPotion2">
-            <h4>Buy Health Potion (level 2)</h4>
-            <button style="display: block; margin: 0 auto;" onclick="buyHealthPot(2)">Buy</button>
-        </div>
-
-        <div id="healthPotion3">
-            <h4>Buy Health Potion (level 3)</h4>
-            <button style="display: block; margin: 0 auto;" onclick="buyHealthPot(3)">Buy</button>
-        </div>
-
-        <div id="healthPotion4">
-            <h4>Buy Health Potion (level 4)</h4>
-            <button style="display: block; margin: 0 auto;" onclick="buyHealthPot(4)">Buy</button>
-        </div>
-
-        <div id="healthPotion5">
-            <h4>Buy Health Potion (level 5)</h4>
-            <button style="display: block; margin: 0 auto;" onclick="buyHealthPot(5)">Buy</button>
-        </div>
+  <div id="healthPotionSection">
+    <div id="healthPotion1">
+      <h4>Buy Health Potion (level 1)</h4>
+      <button style="display: block; margin: 0 auto;" onclick="buyHealthPot(1)">Buy</button>
     </div>
 
-    <select name="pets" id="pets">
-        <% pets.forEach(pet=> { %>
-            <option value="<%= pet.id %>">
-                <%= pet.name %>
-            </option>
-            <% }) %>
-    </select>
+    <div id="healthPotion2">
+      <h4>Buy Health Potion (level 2)</h4>
+      <button style="display: block; margin: 0 auto;" onclick="buyHealthPot(2)">Buy</button>
+    </div>
 
-    <a href="/">Back to City</a>
-    <a href="/home">Your Pets</a>
+    <div id="healthPotion3">
+      <h4>Buy Health Potion (level 3)</h4>
+      <button style="display: block; margin: 0 auto;" onclick="buyHealthPot(3)">Buy</button>
+    </div>
 
-    <script src="/socket.io/socket.io.js"> </script>
-    <script>
-        var localName = "<%= user %>";
-        const socket = io();
-        // console.log(localName);
-        currentPet = document.getElementById("pets").value;
+    <div id="healthPotion4">
+      <h4>Buy Health Potion (level 4)</h4>
+      <button style="display: block; margin: 0 auto;" onclick="buyHealthPot(4)">Buy</button>
+    </div>
 
-        document.getElementById('pets').addEventListener('change', (e) => {
-            currentPet = e.target.value;
-            console.log(currentPet);
-        });
+    <div id="healthPotion5">
+      <h4>Buy Health Potion (level 5)</h4>
+      <button style="display: block; margin: 0 auto;" onclick="buyHealthPot(5)">Buy</button>
+    </div>
+  </div>
 
-        document.getElementById("pets").selectedIndex = -1;
 
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
 
-            notification.textContent = message;
+  <a href="/">Back to City</a>
+  <a href="/home">Your Pets</a>
 
-            notification.classList.add('show');
+  <script src="/socket.io/socket.io.js"> </script>
+  <script>
+    var localName = "<%= user %>";
+    const socket = io();
+    // console.log(localName);
+    currentPet = document.getElementById("pets").value;
 
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
+    document.getElementById('pets').addEventListener('change', (e) => {
+      currentPet = e.target.value;
+      console.log(currentPet);
+    });
 
-        function buyHealthPot(level) {
+    document.getElementById("pets").selectedIndex = -1;
 
-            switch (level) {
-                case 1:
-                    console.log("Buying Health Potion (level 1)");
-                    socket.emit("hospitalHeal", {
-                        user: localName,
-                        level: "1",
-                        healAmount: 10,
-                        pet: currentPet
-                    });
-                    break;
-                case 2:
-                    console.log("Buying Health Potion (level 2)");
-                    socket.emit("hospitalHeal", {
-                        user: localName,
-                        level: "2",
-                        healAmount: 20,
-                        pet: currentPet
-                    });
-                    break;
-                case 3:
-                    console.log("Buying Health Potion (level 3)");
-                    socket.emit("hospitalHeal", {
-                        user: localName,
-                        level: "3",
-                        healAmount: 30,
-                        pet: currentPet
-                    });
-                    break;
-                case 4:
-                    console.log("Buying Health Potion (level 4)");
-                    socket.emit("hospitalHeal", {
-                        user: localName,
-                        level: "4",
-                        healAmount: 40,
-                        pet: currentPet
-                    });
-                    break;
-                case 5:
-                    console.log("Buying Health Potion (level 5)");
-                    socket.emit("hospitalHeal", {
-                        user: localName,
-                        level: "5",
-                        healAmount: 50,
-                        pet: currentPet
-                    });
-                    break;
-            }
-        }
+    function showNotification(message) {
+      const notification = document.getElementById('notification');
 
-        socket.on('pethealthUpdated', (data) => {
-            console.log(`Pet healed for ${data.user}. New health: ${data.newHealth}`);
-            showNotification(`Pet healed. New health: ${data.newHealth}`);
-        });
+      notification.textContent = message;
 
-        socket.on('pethealthFull', (data) => {
-            console.log(`Pet health is already full.`);
-            showNotification('Pet health is already full.');
-        });
+      notification.classList.add('show');
 
-        socket.on('noPetFound', (data) => {
-            console.log(`No pet found for ${data.user}.`);
-            showNotification('No pet found.');
-        });
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
 
-        socket.on('error', (data) => {
-            console.error(data.message);
-        });
-    </script>
+    function buyHealthPot(level) {
+
+      switch (level) {
+        case 1:
+          console.log("Buying Health Potion (level 1)");
+          socket.emit("buyItem", {
+            user: localName,
+            cost: 10,
+            item: 'Level 1 Health Potion',
+            description: '+10 health for your pet'
+          });
+          break;
+        case 2:
+          console.log("Buying Health Potion (level 2)");
+          socket.emit("buyItem", {
+            user: localName,
+            cost: 20,
+            item: 'Level 2 Health Potion',
+            description:'+20 health for your pet'
+          });
+          break;
+        case 3:
+          console.log("Buying Health Potion (level 3)");
+          socket.emit("buyItem", {
+            user: localName,
+            cost: 50,
+            item: 'Level 3 Health Potion',
+            description:'+30 health for your pet'
+          });
+          break;
+        case 4:
+          console.log("Buying Health Potion (level 4)");
+          socket.emit("buyItem", {
+            user: localName,
+            cost: 50,
+            item: 'Level 4 Health Potion',
+            description:'+40 health for your pet'
+          });
+          break;
+        case 5:
+          console.log("Buying Health Potion (level 5)");
+          socket.emit("buyItem", {
+            user: localName,
+            cost: 50,
+            item: 'Level 5 Health Potion',
+            description:'+50 health for your pet'
+          });
+          break;
+      }
+    }
+
+    socket.on('pethealthUpdated', (data) => {
+      console.log(`Pet healed for ${data.user}. New health: ${data.newHealth}`);
+      showNotification(`Pet healed. New health: ${data.newHealth}`);
+    });
+
+    socket.on('pethealthFull', (data) => {
+      console.log(`Pet health is already full.`);
+      showNotification('Pet health is already full.');
+    });
+
+    socket.on('noPetFound', (data) => {
+      console.log(`No pet found for ${data.user}.`);
+      showNotification('No pet found.');
+    });
+
+    socket.on('error', (data) => {
+      console.error(data.message);
+    });
+  </script>
 
 </body>
 
