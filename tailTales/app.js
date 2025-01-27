@@ -62,5 +62,9 @@ app.get('/jobs', isAuthenticated, routes.jobs);
 
 app.get('/janitor', isAuthenticated, routes.janitor);
 
+app.get('/itemStore', isAuthenticated, routes.itemStore);
+
+app.get('/foodStore', isAuthenticated, routes.foodStore);
+
 io.on('connection', socket.socketH);
 

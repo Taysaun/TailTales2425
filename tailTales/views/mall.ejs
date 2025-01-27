@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+    <script>
+                var localName = "<%= user %>";
+    </script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mall</title>
 </head>
 <body>
-    <h1>This is where you go to buy stuff.</h1>
+    <h1>Welcome to the mall, <%= user %></h1>
     <a href="/jobs">Jobs</a>
+    <br>
+    <a href="/itemStore">Item store</a>
+    <br>
+    <a href="/foodStore">Get food for your pet!</a>
+    <br>
+     <a href="/clothingStore">Buy a new outfit</a>
+    <br>
+    <a href="/">Exit the mall</a>
 </body>
 </html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>itemStore</title>
+</head>
+<body>
+
+    <div id="notification"></div>
+
+    <div> 
+    <div class="item"></div>
+        <h2>Rubber Ball</h2>
+        <p>Description: A simple toy for all pets (except the aqautic ones)<br>
+        Cost: 10<br>
+     Entertainment: 20</p>
+        <button onclick="buyItem(1)">Buy Now</button>
+    </div>
+    <div class="item">
+        <h2>Plastic Fish</h2>
+        <p>Description: A simple toy for the fish! <br>
+        Cost: 10 <br>
+        Entertainment: 20</p>
+        <button onclick="buyItem(2)">Buy Now</button>
+    </div>
+    <div class="item">
+        <h2>Self-Driven Ball</h2>
+        <p>Description: A complex toy for all pets (execept the fish)<br>
+        Cost: 20<br>
+        Entertainment: 30</p>
+        <button onclick="buyItem(3)">Buy Now</button>
+    </div>
+    <div class="item"> 
+        <h2>Robo Fish</h2>
+        <p>Description: A complex toy for the fish!<br>
+        Cost: 20<br>
+        Entertainment: 40</p>
+        <button onclick="buyItem(4)" >Buy Now</button>
+    </div>
+    <div class="item">
+        <h2>SuperAI Ball</h2>
+        <p>Description: The lastest in pet toy tech that's effective on works on all pets!<br>
+        Cost: 50<br>
+        Entertainment: 100</p>
+        <button onclick="buyItem(5)">Buy Now</button>
+    </div>
+</div>
+    <a href="/mall">Back to the mall</a>
+    <br>
+    <a href="/">Exit the mall through the fire exit</a>
+</body>
+<script src="socket.io/socket.io.js"></script>
+<script>
+    var socket = io();
+    var localName = "<%= user %>";
+
+    function showNotification(message) {
+            const notification = document.getElementById('notification');
+
+            notification.textContent = message;
+
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+function buyItem(item){
+    switch(item){
+        case 1:
+            socket.emit('buyItem', {
+                user: localName,
+                cost: 10,
+                item: 'Rubber Ball',
+                description:'-20 non-aquatic non-exotic pet boredom points',
+                
+                
+            });
+            console.log('item1');
+            break;
+        case 2: 
+            socket.emit('buyItem', {
+                user: localName,
+                cost: 10,
+                item: 'Fake Fish',
+                description:'-20 aqautic petnon-exotic  boredom points'
+            });
+            console.log('item2');
+            break;
+        case 3: 
+            socket.emit('buyItem', {
+                user: localName,
+                cost: 30,
+                item: 'Self Driven Ball',
+                description:'-40 non-aquatic non-exotic pet boredom points'            });
+            console.log('item3');
+            break;
+        case 4: 
+            socket.emit('buyItem', {
+                user: localName,
+                cost: 40,
+                item: 'Robo Fish',
+                description:'-40 aqautic non-exotic pet boredom points'
+            });
+            break;
+        case 5: 
+            socket.emit('buyItem', {
+                user: localName,
+                cost: 50,
+                item: 'AdvancedBall',
+                description:'Subtracts 50 boredom points from your non-exotic pet'
+            });
+            break;
+    }
+
+socket.on('itemAdded', function(data){
+    message = data.message
+    console.log(data);
+    showNotification(message);
+});
+
+socket.on('error', function(data){
+    message = data.message
+    console.log(data);
+    showNotification(message);
+});
+    };
+</script>
+</html>

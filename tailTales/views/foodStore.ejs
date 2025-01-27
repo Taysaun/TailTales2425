@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>itemStore</title>
+</head>
+<body>
+
+    <div id="notification"></div>
+
+    <div> 
+    <div class="item"></div>
+        <h2>Meat Pebbles</h2>
+        <p>Description: little pebbles of meat too big for fish but a decent snack for other animals<br>
+        Cost: 10<br>
+        Sustenance: 20</p>
+        <button onclick="buyItem(1)">Buy Now</button>
+    </div>
+    <div class="item">
+        <h2>Fish Flakes</h2>
+        <p>Description: A good snack for fish! <br>
+        Cost: 10 <br>
+        Sustenance: 20</p>
+        <button onclick="buyItem(2)">Buy Now</button>
+    </div>
+    <div class="item">
+        <h2>Meat Ball</h2>
+        <p>Description: Balls of meat too big for fish, but a great meal for other animals<br>
+        Cost: 20<br>
+        Sustenance: 30</p>
+        <button onclick="buyItem(3)">Buy Now</button>
+    </div>
+    <div class="item"> 
+        <h2>Super Fish Flakes</h2>
+        <p>Description: A great meal for the fish!<br>
+        Cost: 20<br>
+        Sustenance: 40</p>
+        <button onclick="buyItem(4)" >Buy Now</button>
+    </div>
+    <div class="item">
+        <h2>Genetically Modified Paste</h2>
+        <p>Description: The lastest in pet food that's effective on all pets!<br>
+        Cost: 50<br>
+        Sustenance: 100</p>
+        <button onclick="buyItem(5)">Buy Now</button>
+    </div>
+</div>
+    <a href="/mall">Back to the mall</a>
+    <br>
+    <a href="/">Exit the mall through the fire exit</a>
+</body>
+<script src="socket.io/socket.io.js"></script>
+<script>
+    var socket = io();
+    var localName = "<%= user %>";
+
+    function showNotification(message) {
+            const notification = document.getElementById('notification');
+
+            notification.textContent = message;
+
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+function buyItem(item){
+    switch(item){
+        case 1:
+            socket.emit('buyItem', {
+                user: localName,
+                cost: 10,
+                item: 'Meat Pebbles',
+                description: '-20 hunger points from non-aquatic non-exotic pets',
+                
+                
+            });
+            console.log('item1');
+            break;
+        case 2: 
+            socket.emit('buyItem', {
+                user: localName,
+                cost: 10,
+                item: 'Fish Flakes',
+                description: '-20 hunger points from non-exotic aqautic pets'
+            });
+            console.log('item2');
+            break;
+        case 3: 
+            socket.emit('buyItem', {
+                user: localName,
+                cost: 30,
+                item: 'Meat Ball',
+                description: '-40 hunger points from non-aquatic non-exotic pets'            });
+            console.log('item3');
+            break;
+        case 4: 
+            socket.emit('buyItem', {
+                user: localName,
+                cost: 40,
+                item: 'Super Fish Flakes',
+                description: '-40 hunger points from non-exotic aqautic pets '
+            });
+            break;
+        case 5: 
+            socket.emit('buyItem', {
+                user: localName,
+                cost: 50,
+                item: 'Genetically Modified Paste',
+                description: '-50 hunger points from your non-exotic pets'
+            });
+            break;
+    }
+
+socket.on('itemAdded', function(data){
+    message = data.message
+    console.log(data);
+    showNotification(message);
+});
+
+socket.on('error', function(data){
+    message = data.message
+    console.log(data);
+    showNotification(message);
+});
+    };
+</script>
+</html>

@@ -134,6 +134,17 @@ function mall(req, res) {
     res.render('mall', { user: req.session.user });
 }
 
+function itemStore(req, res) {
+    db.get('SELECT * FROM users WHERE username=?;', req.session.user, (err, row) => {
+        if (err) {
+            console.error(err);
+            res.send('An error occurred while fetching username');
+            return;
+        }
+        res.render('itemStore', {user: req.session.user, moneyOwned: row.money});
+    });
+}
+
 function home(req, res) {
     db.get('SELECT * FROM users WHERE username=?;', req.session.user, (err, row) => {
         var userMoney;
@@ -181,6 +192,17 @@ function jobs(req, res) {
 function janitor(req, res) {
     res.render('janitor', { user: req.session.user });
 }
+    
+function foodStore(req, res) {
+    db.get('SELECT * FROM users WHERE username=?;', req.session.user, (err, row) => {
+        if (err) {
+            console.error(err);
+            res.send('An error occurred while fetching username');
+            return;
+        }
+        res.render('foodStore', {user: req.session.user, moneyOwned: row.money});
+    });
+}
 
 module.exports = {
     home,
@@ -194,5 +216,7 @@ module.exports = {
     chat,
     jobs,
     janitor,
-    db
+    db,
+    itemStore,
+    foodStore,
 }
