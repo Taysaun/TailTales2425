@@ -53,25 +53,20 @@
     <div id="notification"></div>
 
     <h1>Pets</h1>
-    <div id="money">Money: <%= money %>
-    </div>
+    <div id="money">Money: <%= money %></div>
     <div>
         <% if (pets.length> 0) { %>
             <ul>
                 <% pets.forEach(pet=> { %>
                     <li id="<%= pet.id %>" class="pets">
-                        <%= pet.name %>
+                        <%= pet.name %> (<%= pet.description %>)
                             <ul>
-                                <li>health: <%= pet.health %>
-                                </li>
-                                <li>boredom: <%= pet.boredom %>
-                                </li>
-                                <li>hunger: <%= pet.hunger %>
-                                </li>
+                                <li>health: <%= pet.health %></li>
+                                <li>boredom: <%= pet.boredom %></li>
+                                <li>hunger: <%= pet.hunger %></li>
                             </ul>
                     </li>
-
-                    <% }) %>
+                <% }) %>
             </ul>
 
             <select name="pets" id="pets">
@@ -85,7 +80,7 @@
             <button onclick="play()">Play with pet</button>
             <% } %>
 
-                <button onclick="feed()">Feed pet</button>
+            <button onclick="feed()">Feed pet</button>
     </div>
 
     <a href="/">Back to City</a>
@@ -124,7 +119,7 @@
         pets.forEach(petElement => {
             if (pet.id == petElement.id) {
                 petElement.innerHTML = `
-                    ${pet.name}
+                    ${pet.name} (${pet.description})
                     <ul>
                         <li>health: ${pet.health}</li>
                         <li>boredom: ${pet.boredom}</li>
@@ -150,7 +145,7 @@
             userPets.forEach(pet => {
                 if (pet.id == petElement.getAttribute('id')) {
                     petElement.innerHTML = `
-                        ${pet.name}
+                        ${pet.name} (${pet.description})
                         <ul>
                             <li>health: ${pet.health}</li>
                             <li>boredom: ${pet.boredom}</li>

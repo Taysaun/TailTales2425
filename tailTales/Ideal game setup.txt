@@ -1,0 +1,4 @@
+Game ticks
+log last update in the console
+Save certain data into memory
+run a certain amount of game ticks when a person logs in based on how long they've been away.

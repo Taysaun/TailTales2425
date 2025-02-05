@@ -2,46 +2,64 @@ const { db } = require("./routes");
 routes = require('./routes.js');
 
 
+let hungerChange = setInterval(() => {
+  db.run('UPDATE pets SET hunger = hunger + 1 WHERE hunger < 100;', (err) => {
+    if (err) {
+      console.error('Error updating hunger:', err);
+    }
+    db.all('SELECT * FROM pets', (err, rows) => {
+      if (err) {
+        console.error('Database error:', err);
+        return;
+      }
+    });
+  })
+}, 60000)
+
+let boredomChange = setInterval(() => {
+  db.run('UPDATE pets SET boredom = boredom + 1 WHERE boredom < 100;', (err) => {
+    if (err) {
+      console.error('Error updating boredom:', err);
+    }
+    db.all('SELECT * FROM pets', (err, rows) => {
+      if (err) {
+        console.error('Database error:', err);
+        return;
+      }
+    });
+  })
+}, 20000)
+
+let healthChange = setInterval(() => {
+  db.run('UPDATE pets SET health = health - 1 WHERE health > 0 AND hunger = 100;', (err) => {
+    if (err) {
+      console.error('Error updating health:', err);
+    }
+    db.all('SELECT * FROM pets', (err, rows) => {
+            if (err) {
+              console.error('Database error:', err);
+              return;
+            }
+        });
+  })
+  db.run('UPDATE pets SET status = "Dead" WHERE health = 0;', (err) => {
+    if (err) {
+      console.error('Error updating status:', err);
+    }
+  })
+}, 15000)
 
 function socketH(socket) {
 
-  let hungerChange = setInterval(() => {
-    db.run('UPDATE pets SET hunger = hunger + 1 WHERE hunger < 100;', (err) => {
+  setInterval(() => {
+    db.all('SELECT * FROM pets', (err, rows) => {
       if (err) {
-        console.error('Error updating hunger:', err);
+        console.error('Database error:', err);
+        return;
       }
-      db.all('SELECT * FROM pets', (err, rows) => {
-        if (err) {
-          console.error('Database error:', err);
-          return;
-        }
-        socket.emit('petsUpdated', rows);
-      });
-    })
-  }, 60000)
-
-  let boredomChange = setInterval(() => {
-    db.run('UPDATE pets SET boredom = boredom + 1 WHERE boredom < 100;', (err) => {
-      if (err) {
-        console.error('Error updating boredom:', err);
-      }
-      db.all('SELECT * FROM pets', (err, rows) => {
-        if (err) {
-          console.error('Database error:', err);
-          return;
-        }
-        socket.emit('petsUpdated', rows);
-      });
-    })
-  }, 20000)
-
-  let healthChange = setInterval(() => {
-    db.run('UPDATE pets SET health = health - 1 WHERE health > 0 AND hunger = 100;', (err) => {
-      if (err) {
-        console.error('Error updating health:', err);
-      }
-    })
-  }, 15000)
+      socket.emit('petsUpdated', rows);
+    });
+  }, 1000);
 
   console.log('a user connected');
   socket.on('connect', function () {
@@ -49,17 +67,12 @@ function socketH(socket) {
   });
 
   socket.on('disconnect', function () {
-    clearInterval(hungerChange);
-    clearInterval(healthChange);
-    clearInterval(boredomChange);
     console.log('user disconnected');
   });
 
   socket.on('message', function (msg) {
     console.log('message: ' + msg);
   });
-
- 
   
   socket.on('buyItem', function (data) {
     const user = data.user;
