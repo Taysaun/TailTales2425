@@ -60,7 +60,7 @@ function loginPost(req, res) {
                         res.send('error hashing password') + err
                     } else {
                         const hashedPassword = derivedKey.toString('hex')
-                        db.run('INSERT INTO users (username, password, salt) VALUES (?, ?, ?);', [req.body.user, hashedPassword, salt], (err) => {
+                        db.run('INSERT INTO users (username, password, salt, money) VALUES (?, ?, ?,0);', [req.body.user, hashedPassword, salt], (err) => {
                             if (err) {
                                 res.send('Database error: \n' + err)
                             } else {
