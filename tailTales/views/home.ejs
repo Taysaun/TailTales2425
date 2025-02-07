@@ -44,6 +44,48 @@
             display: block;
             opacity: 1;
         }
+
+        .sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    background: #333;
+    color: white;
+    transition: 0.3s;
+    padding-top: 60px;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    padding: 15px;
+    text-decoration: none;
+}
+
+.sidebar a:hover {
+    background: #575757;
+}
+
+#toggleBtn {
+    font-size: 20px;
+    margin: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#closeBtn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
     </style>
 
 </head>
@@ -51,6 +93,16 @@
 <body>
 
     <div id="notification"></div>
+
+    <button id="toggleBtn">☰ Menu</button>
+
+    <div id="sidebar" class="sidebar">
+        <button id="closeBtn">&times;</button>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </div>
 
     <h1>Pets</h1>
     <div id="money">Money: <%= money %></div>
@@ -89,6 +141,14 @@
 <script>
 
     var localName = "<%= user %>";
+
+    document.getElementById("toggleBtn").addEventListener("click", function() {
+    document.getElementById("sidebar").style.left = "0";
+});
+
+document.getElementById("closeBtn").addEventListener("click", function() {
+    document.getElementById("sidebar").style.left = "-250px";
+});
 
     function showNotification(message) {
         const notification = document.getElementById('notification');
